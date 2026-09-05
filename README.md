@@ -1,82 +1,90 @@
-# Unity Multiplayer Test
+# Multiplayer Starter Template
 
-## Overview
-A cross-platform multiplayer test project built in Unity with support for:
-- **Steam** networking (via Steamworks)
-- **WebRTC** for peer-to-peer communication (with Desktop, Mobile, and WebGL support)
-- **Custom Network Manager** for better runtime control
+Unity **6000.6.0f1** starter for a standalone multiplayer game: lobby first, then one playable level.
 
-## Setup Instructions
+This repo does **not** use Git LFS. Keep it that way so GitHub does not charge for LFS storage.
 
-### General Usage
-- Use [CustomNetworkManager](Assets/Scripts/Network/CustomNetworkManager.cs) instead of the default `NetworkManager`.
-  - Prevents duplicate instances and adds utility functions for transport handling.
-- Attach all transport components (e.g., Steam, WebRTC) to the same GameObject as the `CustomNetworkManager`
-- Read the Steam/WebRTC sections for more information on their usage
+## Play
 
-### Define Symbols
-- Add the following symbol to **non-Steam** platforms (e.g., WebGL, Android):
-  ```
-  DISABLESTEAMWORKS
-  ```
+1. Open the project in Unity 6 (`6000.6.0f1`).
+2. Load `Assets/Scenes/Lobby.unity`.
+3. Play, host or join, then **Start**. The lobby loads `SampleLevel` automatically.
 
-### Android Build Tips
-If you experience crashes when building for Android:
-- Go to **Player Settings > Android > Other Settings**
-  - Uncheck `Auto Graphics API`
-  - Reorder graphics APIs so `OpenGLES3` is first
-  - Remove `Vulkan` if unnecessary
-  - Enable `Require ES3.1`, `Require ES3.1+AEP`, and `Require ES3.2`
+## Packages
 
+Pinned in `Packages/manifest.json`:
 
-## Steam Support
+- [AZ Utilities](https://github.com/aziztitu/az-utils) `1.0.2`
+- [AZ Multiplayer Core](https://github.com/aziztitu/multiplayer-core) `1.0.2`
+
+Use `CustomNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkManager`). Put Steam / WebRTC transport components on the same GameObject.
+
+### Scripting defines
+
+| Define | Where |
+|---|---|
+| `DOTWEEN` | Standalone player settings + every build profile (DOTween is in `Assets/_External`, not UPM) |
+| `STEAMWORKS_NET` | Standalone |
+| `DISABLESTEAMWORKS` | Web and Android build profiles |
+| `UNITY_NETCODE` / `NETWORK_DICTIONARY` | Build profiles |
+
+## Project layout
+
+| Path | Role |
+|---|---|
+| `Assets/Scenes/Lobby.unity` | Host / join (includes `GameManager`) |
+| `Assets/Scenes/Sample/SampleLevel.unity` | The playable scene (`LevelManager`) |
+| `Assets/Prefabs/Network` | `NetworkManager`, default network prefabs list |
+| `Assets/Prefabs/Managers` | `GameManager`, `LevelManager` |
+| `Assets/Prefabs/Player` | `PlayerCharacter`, `PlayerNetworkIdentity` |
+| `Assets/Prefabs/UI` | `PauseMenu` |
+| `Assets/Prefabs/Camera` | Camera rigs |
+
+AZ Multiplayer Core owns `LobbyUI`, `SimpleLobbyManager`, and `SimplePlayerCharacterSpawner`. This project owns `NetworkManager`, the network prefabs list, `PlayerNetworkIdentity`, and `PauseMenu` so you can change them without forking the package.
+
+If you rename the level scene, add it to **File → Build Profiles** and set that name on the lobby `LobbyUI` `gameSceneNames`. One name = auto-start. Two or more = in-lobby picker.
+
+## Steam
 
 ### Dependencies
+
 - [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net)
 - [Heathen SystemCore](https://github.com/heathen-engineering/SystemCore.git?path=/com.heathen.systemcore)
 - [SteamNetworkingSockets Transport](https://github.com/Unity-Technologies/multiplayer-community-contributions.git?path=/Transports/com.community.netcode.transport.steamnetworkingsockets)
-- [Heathen Toolkit for Steamworks Foundation](https://github.com/heathen-engineering/Toolkit-for-Steamworks-Foundation.git?path=/Unity/com.heathen.steamworksfoundation)
+- [Heathen Toolkit for Steamworks Foundation](https://github.com/heathen-engineering/SteamworksFoundation.git?path=/Unity/com.heathen.steamworksfoundation)
 
-### Added Features
-- [SteamCustomTransport.cs](Assets/Scripts/Network/Steam/SteamCustomTransport.cs)
-  - Wrapper around `SteamNetworkingSocketsTransport` to avoid asset reference breakages when switching build targets
+Use `SteamCustomTransport` from AZ Multiplayer Core instead of `SteamNetworkingSocketsTransport` so asset references survive switching build targets.
 
-### Usage
-- Use `SteamCustomTransport` instead of `SteamNetworkingSocketsTransport`
-- Set Steam App ID in:
-  - The inspector on `SteamCustomTransport`
-  - A file named `steam_appid.txt` at the project root
+Set the Steam App ID on that component and in `steam_appid.txt` at the project root.
 
+## WebRTC
 
-## WebRTC Support
-
-This project uses the community WebRTC transport from the `transport/webrtc` branch of [aziztitu/unity-multiplayer-community-contributions](https://github.com/aziztitu/unity-multiplayer-community-contributions/tree/transport/webrtc):
+Community transport: [aziztitu/unity-multiplayer-community-contributions](https://github.com/aziztitu/unity-multiplayer-community-contributions/tree/transport/webrtc) (`transport/webrtc` branch).
 
 ```
 https://github.com/aziztitu/unity-multiplayer-community-contributions.git?path=/Transports/com.community.netcode.transport.webrtc#transport/webrtc
 ```
 
-See that package README for install, signaling, ICE/TURN, and WebGL details.
+Also needs [Socket.IO Unity](https://github.com/itisnajim/SocketIOUnity.git) and `com.unity.webrtc`.
 
-### Dependencies
-- [Socket.IO Unity](https://github.com/itisnajim/SocketIOUnity.git) (Editor / Desktop / Mobile signaling)
-- `com.unity.webrtc` (pulled in by the transport package)
-- The WebRTC transport package itself
+### Signaling
 
-### Signaling server
+Dev/test: [https://signal.multiplayer.azeesoft.com/](https://signal.multiplayer.azeesoft.com/) — generate a token, then set **Signaling Server URL** to `wss://signal.multiplayer.azeesoft.com` and **Signaling Server Auth Token** to that token.
 
-For development and testing, you can use the public server at [https://signal.multiplayer.azeesoft.com/](https://signal.multiplayer.azeesoft.com/). Open that page, generate a token, then set **Signaling Server URL** to `wss://signal.multiplayer.azeesoft.com` and **Signaling Server Auth Token** to that token.
+Production: run [webrtc-ngo-signaling](https://github.com/aziztitu/webrtc-ngo-signaling) (sample listens on `http://localhost:4000`) or implement the same Socket.IO events.
 
-For production, run your own server from [webrtc-ngo-signaling](https://github.com/aziztitu/webrtc-ngo-signaling), or implement the same Socket.IO events. The sample listens on `http://localhost:4000` by default.
+### Unity setup
 
-### Unity configuration
+1. Attach `WebRTCTransport` to the same GameObject as `CustomNetworkManager`.
+2. Set **Signaling Server URL** and **Signaling Server Auth Token**.
+3. Optionally add TURN before shipping — STUN-only fails on some NATs.
+4. Host: leave `roomId` empty. Client: set `roomId` before connecting.
 
-1. Attach `WebRTCTransport` to the same GameObject as your `CustomNetworkManager` (or stock `NetworkManager`).
-2. Set **Signaling Server URL**:
-   - Public test server: `wss://signal.multiplayer.azeesoft.com`
-   - Local sample: `http://localhost:4000`
-   - Your production server: `https://your-domain.com` (or `wss://your-domain.com`)
-3. Set **Signaling Server Auth Token** (token from the public page, or the token your own server expects).
-4. Optionally add custom ICE / TURN servers. Add a TURN server before production — STUN-only connections fail on some NAT types.
-5. Host: leave `roomId` empty. Client: set `roomId` before connecting.
+## Android
 
+If the build crashes:
+
+- **Player Settings → Android → Other Settings**
+  - Uncheck Auto Graphics API
+  - Put `OpenGLES3` first; drop Vulkan if you do not need it
+  - Enable Require ES3.1 / ES3.1+AEP / ES3.2

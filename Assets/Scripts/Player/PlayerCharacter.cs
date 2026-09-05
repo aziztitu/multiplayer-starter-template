@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerCharacter : NetworkBehaviour
 {
-    [SerializeField] private Cinemachine.CinemachineVirtualCamera playerFollowCamera;
+    [SerializeField] private Unity.Cinemachine.CinemachineVirtualCamera playerFollowCamera;
     private PlayerInput playerInput;
 
     private void Awake()
