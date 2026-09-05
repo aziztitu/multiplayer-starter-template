@@ -15,7 +15,7 @@ This repo does **not** use Git LFS. Keep it that way so GitHub does not charge f
 Pinned in `Packages/manifest.json`:
 
 - [AZ Utilities](https://github.com/aziztitu/az-utils) `1.0.2`
-- [AZ Multiplayer Core](https://github.com/aziztitu/multiplayer-core) `1.0.2`
+- [AZ Multiplayer Core](https://github.com/aziztitu/multiplayer-core) `1.0.3`
 
 Use `CustomNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkManager`). Put Steam / WebRTC transport components on the same GameObject.
 
@@ -40,7 +40,7 @@ Use `CustomNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkM
 | `Assets/Prefabs/UI` | `PauseMenu` |
 | `Assets/Prefabs/Camera` | Camera rigs |
 
-AZ Multiplayer Core owns `LobbyUI`, `SimpleLobbyManager`, and `SimplePlayerCharacterSpawner`. This project owns `NetworkManager`, the network prefabs list, `PlayerNetworkIdentity`, and `PauseMenu` so you can change them without forking the package.
+AZ Multiplayer Core owns the `LobbyUI` prefab, `SimpleLobbyManager`, and `SimplePlayerCharacterSpawner`. This project owns `NetworkManager`, the network prefabs list, `PlayerNetworkIdentity`, and `PauseMenu` so you can change them without forking the package.
 
 If you rename the level scene, add it to **File → Build Profiles** and set that name on the lobby `LobbyUI` `gameSceneNames`. One name = auto-start. Two or more = in-lobby picker.
 

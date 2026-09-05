@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.azeesoft.multiplayer-core": {
-      "version": "https://github.com/aziztitu/multiplayer-core.git#1.0.2",
+      "version": "https://github.com/aziztitu/multiplayer-core.git#1.0.3",
       "depth": 0,
       "source": "git",
       "dependencies": {
@@ -11,7 +11,7 @@
         "com.unity.ugui": "2.0.0",
         "com.unity.multiplayer.playmode": "1.3.3"
       },
-      "hash": "7ecd141d180b0c2551b44b25071e10e54d022cba"
+      "hash": "bbed8597940b235e123b64aa00ad03eecdfcec63"
     },
     "com.azeesoft.utils": {
       "version": "https://github.com/aziztitu/az-utils.git#1.0.2",
