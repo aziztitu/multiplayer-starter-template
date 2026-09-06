@@ -21,7 +21,7 @@ If you copy the starter into your own game and want LFS for art or audio:
 Pinned in `Packages/manifest.json`:
 
 - [AZ Utilities](https://github.com/aziztitu/az-utils) `1.0.2`
-- [AZ Multiplayer Core](https://github.com/aziztitu/multiplayer-core) `1.0.4`
+- [AZ Multiplayer Core](https://github.com/aziztitu/multiplayer-core) `1.0.5`
 
 Use `AZNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkManager`). Put Steam / WebRTC transport components on the same GameObject.
 
