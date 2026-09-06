@@ -15,9 +15,9 @@ This repo does **not** use Git LFS. Keep it that way so GitHub does not charge f
 Pinned in `Packages/manifest.json`:
 
 - [AZ Utilities](https://github.com/aziztitu/az-utils) `1.0.2`
-- [AZ Multiplayer Core](https://github.com/aziztitu/multiplayer-core) `1.0.3`
+- [AZ Multiplayer Core](https://github.com/aziztitu/multiplayer-core) `1.0.4`
 
-Use `CustomNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkManager`). Put Steam / WebRTC transport components on the same GameObject.
+Use `AZNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkManager`). Put Steam / WebRTC transport components on the same GameObject.
 
 ### Scripting defines
 
@@ -34,15 +34,17 @@ Use `CustomNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkM
 |---|---|
 | `Assets/Scenes/Lobby.unity` | Host / join (includes `GameManager`) |
 | `Assets/Scenes/Sample/SampleLevel.unity` | The playable scene (`LevelManager`) |
-| `Assets/Prefabs/Network` | `NetworkManager`, default network prefabs list |
-| `Assets/Prefabs/Managers` | `GameManager`, `LevelManager` |
+| `Assets/Prefabs/Network` | `AZ Network Manager`, default network prefabs list |
+| `Assets/Prefabs/Managers` | `GameManager`, `LevelManager`, `LobbyManager` |
 | `Assets/Prefabs/Player` | `PlayerCharacter`, `PlayerNetworkIdentity` |
-| `Assets/Prefabs/UI` | `PauseMenu` |
+| `Assets/Prefabs/UI` | `LobbyUI`, `PlayerList`, `PauseMenu` |
 | `Assets/Prefabs/Camera` | Camera rigs |
 
-AZ Multiplayer Core owns the `LobbyUI` prefab, `SimpleLobbyManager`, and `SimplePlayerCharacterSpawner`. This project owns `NetworkManager`, the network prefabs list, `PlayerNetworkIdentity`, and `PauseMenu` so you can change them without forking the package.
+This project owns the lobby (`LobbyUI`, nested `PlayerList`, `LobbyManager`), `AZ Network Manager`, the network prefabs list, `PlayerNetworkIdentity`, and `PauseMenu`. AZ Multiplayer Core owns `AZNetworkManager` and `SimplePlayerCharacterSpawner`.
 
-If you rename the level scene, add it to **File → Build Profiles** and set that name on the lobby `LobbyUI` `gameSceneNames`. One name = auto-start. Two or more = in-lobby picker.
+To use a custom lobby roster, subclass `LobbyPlayerList`, replace the nested `PlayerList` on `LobbyUI`, and assign it to the **Player List** field.
+
+If you rename the level scene, add it to **File → Build Profiles** and set that name on `LobbyUI` `gameSceneNames`. The lobby starts the first name in that list.
 
 ## Steam
 
@@ -75,7 +77,7 @@ Production: run [webrtc-ngo-signaling](https://github.com/aziztitu/webrtc-ngo-si
 
 ### Unity setup
 
-1. Attach `WebRTCTransport` to the same GameObject as `CustomNetworkManager`.
+1. Attach `WebRTCTransport` to the same GameObject as `AZNetworkManager`.
 2. Set **Signaling Server URL** and **Signaling Server Auth Token**.
 3. Optionally add TURN before shipping — STUN-only fails on some NATs.
 4. Host: leave `roomId` empty. Client: set `roomId` before connecting.

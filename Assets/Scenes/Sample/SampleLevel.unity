@@ -1572,7 +1572,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3730634528838300825, guid: 017d90bff4542c4479c7f5825cd81160, type: 3}
       propertyPath: m_Name
-      value: NetworkManager
+      value: AZ Network Manager
       objectReference: {fileID: 0}
     - target: {fileID: 8836473739930416680, guid: 017d90bff4542c4479c7f5825cd81160, type: 3}
       propertyPath: m_LocalPosition.x

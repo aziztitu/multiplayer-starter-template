@@ -439,7 +439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3730634528838300825, guid: 017d90bff4542c4479c7f5825cd81160, type: 3}
       propertyPath: m_Name
-      value: NetworkManager
+      value: AZ Network Manager
       objectReference: {fileID: 0}
     - target: {fileID: 8162913709580630640, guid: 017d90bff4542c4479c7f5825cd81160, type: 3}
       propertyPath: autoConnect
@@ -857,12 +857,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4065829936176128737, guid: 000d760147ffe6949ac14a61687e356f, type: 3}
+      propertyPath: gameSceneNames.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065829936176128737, guid: 000d760147ffe6949ac14a61687e356f, type: 3}
       propertyPath: 'gameSceneNames.Array.data[0]'
       value: SampleLevel
-      objectReference: {fileID: 0}
-    - target: {fileID: 7693871890549341382, guid: 000d760147ffe6949ac14a61687e356f, type: 3}
-      propertyPath: m_text
-      value: Multiplayer Starter
       objectReference: {fileID: 0}
     - target: {fileID: 4577586294439058137, guid: 000d760147ffe6949ac14a61687e356f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -887,6 +887,10 @@ PrefabInstance:
     - target: {fileID: 5270318162465987919, guid: 000d760147ffe6949ac14a61687e356f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7693871890549341382, guid: 000d760147ffe6949ac14a61687e356f, type: 3}
+      propertyPath: m_text
+      value: Multiplayer Starter
       objectReference: {fileID: 0}
     - target: {fileID: 9078600444280657756, guid: 000d760147ffe6949ac14a61687e356f, type: 3}
       propertyPath: m_AnchorMax.y
