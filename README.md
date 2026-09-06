@@ -2,7 +2,13 @@
 
 Unity **6000.6.0f1** starter for a standalone multiplayer game: lobby first, then one playable level.
 
-This repo does **not** use Git LFS. Keep it that way so GitHub does not charge for LFS storage.
+This template does **not** use Git LFS. Leave it that way here so GitHub does not charge for LFS storage.
+
+If you copy the starter into your own game and want LFS for art or audio:
+
+1. Install [Git LFS](https://git-lfs.com) and run `git lfs install`.
+2. Track binaries in `.gitattributes` (for example `git lfs track "*.fbx" "*.png" "*.wav" "*.mp3" "*.psd"`), then commit that file.
+3. New matching files go to LFS. Files already in this repo stay as normal Git objects unless you run `git lfs migrate`.
 
 ## Play
 
@@ -39,12 +45,28 @@ Use `AZNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkManag
 | `Assets/Prefabs/Player` | `PlayerCharacter`, `PlayerNetworkIdentity` |
 | `Assets/Prefabs/UI` | `LobbyUI`, `PlayerList`, `PauseMenu` |
 | `Assets/Prefabs/Camera` | Camera rigs |
+| `Assets/Scripts/Data` | Sample `[GenerateNetworkSerialization]` structs |
+| `Assets/Generated` | Auto-written `*.g.cs` (commit these; do not edit) |
 
 This project owns the lobby (`LobbyUI`, nested `PlayerList`, `LobbyManager`), `AZ Network Manager`, the network prefabs list, `PlayerNetworkIdentity`, and `PauseMenu`. AZ Multiplayer Core owns `AZNetworkManager` and `SimplePlayerCharacterSpawner`.
 
 To use a custom lobby roster, subclass `LobbyPlayerList`, replace the nested `PlayerList` on `LobbyUI`, and assign it to the **Player List** field.
 
 If you rename the level scene, add it to **File → Build Profiles** and set that name on `LobbyUI` `gameSceneNames`. The lobby starts the first name in that list.
+
+## Network serialization
+
+NGO needs `INetworkSerializable` (and usually `IEquatable<T>`) on custom structs you send over the network. Mark a **`partial struct`** with `[GenerateNetworkSerialization]` instead of writing that by hand.
+
+Examples: `Assets/Scripts/Data/SimpleData.cs`, `TestData.cs`, `TestNestedData.cs`. Generated output lands in `Assets/Generated/`.
+
+1. Requires the **.NET 8 SDK** (`dotnet` on PATH).
+2. Save the struct, or run **Tools → AZ → Generate Network Serialization**.
+3. Commit both the struct and the `.g.cs` file. Do not edit the generated files.
+
+The struct **must** be `partial`. Classes are not supported. Prefer `FixedString*Bytes` over `string`, and `FixedList*Bytes<T>` over `List<T>`.
+
+Full field list and nested-struct rules: [AZ Multiplayer Core README](https://github.com/aziztitu/multiplayer-core#network-serialization-generator).
 
 ## Steam
 
