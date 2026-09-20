@@ -4,11 +4,21 @@ Unity **6000.6.0f1** starter for a standalone multiplayer game: lobby first, the
 
 This template does **not** use Git LFS. Leave it that way here so GitHub does not charge for LFS storage.
 
-If you copy the starter into your own game and want LFS for art or audio:
+If you clone this starter project to use for your own game and want LFS for art or audio, install [Git LFS](https://git-lfs.com), then from the project root:
 
-1. Install [Git LFS](https://git-lfs.com) and run `git lfs install`.
-2. Track binaries in `.gitattributes` (for example `git lfs track "*.fbx" "*.png" "*.wav" "*.mp3" "*.psd"`), then commit that file.
-3. New matching files go to LFS. Files already in this repo stay as normal Git objects unless you run `git lfs migrate`.
+*In Bash (or Git Bash):*
+
+```bash
+./tools/setup-git-lfs.sh
+```
+
+*OR in Powershell:*
+
+```powershell
+powershell -File tools/setup-git-lfs.ps1
+```
+
+Commit the changes. New matching files go to LFS. Files already included in this repo stay as normal Git objects unless you run `git lfs migrate`.
 
 ## Play
 
@@ -27,26 +37,30 @@ Use `AZNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkManag
 
 ### Scripting defines
 
-| Define | Where |
-|---|---|
-| `DOTWEEN` | Standalone player settings + every build profile (DOTween is in `Assets/_External`, not UPM) |
-| `STEAMWORKS_NET` | Standalone |
-| `DISABLESTEAMWORKS` | Web and Android build profiles |
-| `UNITY_NETCODE` / `NETWORK_DICTIONARY` | Build profiles |
+
+| Define                                 | Where                                                                                        |
+| -------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `DOTWEEN`                              | Standalone player settings + every build profile (DOTween is in `Assets/_External`, not UPM) |
+| `STEAMWORKS_NET`                       | Standalone                                                                                   |
+| `DISABLESTEAMWORKS`                    | Web and Android build profiles                                                               |
+| `UNITY_NETCODE` / `NETWORK_DICTIONARY` | Build profiles                                                                               |
+
 
 ## Project layout
 
-| Path | Role |
-|---|---|
-| `Assets/Scenes/Lobby.unity` | Host / join (includes `GameManager`) |
-| `Assets/Scenes/Sample/SampleLevel.unity` | The playable scene (`LevelManager`) |
-| `Assets/Prefabs/Network` | `AZ Network Manager`, default network prefabs list |
-| `Assets/Prefabs/Managers` | `GameManager`, `LevelManager`, `LobbyManager` |
-| `Assets/Prefabs/Player` | `PlayerCharacter`, `PlayerNetworkIdentity` |
-| `Assets/Prefabs/UI` | `LobbyUI`, `PlayerList`, `PauseMenu` |
-| `Assets/Prefabs/Camera` | Camera rigs |
-| `Assets/Scripts/Data` | Sample `[GenerateNetworkSerialization]` structs |
-| `Assets/Generated` | Auto-written `*.g.cs` (commit these; do not edit) |
+
+| Path                                     | Role                                               |
+| ---------------------------------------- | -------------------------------------------------- |
+| `Assets/Scenes/Lobby.unity`              | Host / join (includes `GameManager`)               |
+| `Assets/Scenes/Sample/SampleLevel.unity` | The playable scene (`LevelManager`)                |
+| `Assets/Prefabs/Network`                 | `AZ Network Manager`, default network prefabs list |
+| `Assets/Prefabs/Managers`                | `GameManager`, `LevelManager`, `LobbyManager`      |
+| `Assets/Prefabs/Player`                  | `PlayerCharacter`, `PlayerNetworkIdentity`         |
+| `Assets/Prefabs/UI`                      | `LobbyUI`, `PlayerList`, `PauseMenu`               |
+| `Assets/Prefabs/Camera`                  | Camera rigs                                        |
+| `Assets/Scripts/Data`                    | Sample `[GenerateNetworkSerialization]` structs    |
+| `Assets/Generated`                       | Auto-written `*.g.cs` (commit these; do not edit)  |
+
 
 This project owns the lobby (`LobbyUI`, nested `PlayerList`, `LobbyManager`), `AZ Network Manager`, the network prefabs list, `PlayerNetworkIdentity`, and `PauseMenu`. AZ Multiplayer Core owns `AZNetworkManager` and `SimplePlayerCharacterSpawner`.
 
@@ -56,7 +70,7 @@ If you rename the level scene, add it to **File → Build Profiles** and set tha
 
 ## Network serialization
 
-NGO needs `INetworkSerializable` (and usually `IEquatable<T>`) on custom structs you send over the network. Mark a **`partial struct`** with `[GenerateNetworkSerialization]` instead of writing that by hand.
+NGO needs `INetworkSerializable` (and usually `IEquatable<T>`) on custom structs you send over the network. Mark a `partial struct` with `[GenerateNetworkSerialization]` instead of writing that by hand.
 
 Examples: `Assets/Scripts/Data/SimpleData.cs`, `TestData.cs`, `TestNestedData.cs`. Generated output lands in `Assets/Generated/`.
 
@@ -112,3 +126,4 @@ If the build crashes:
   - Uncheck Auto Graphics API
   - Put `OpenGLES3` first; drop Vulkan if you do not need it
   - Enable Require ES3.1 / ES3.1+AEP / ES3.2
+
