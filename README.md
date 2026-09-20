@@ -2,9 +2,19 @@
 
 Unity **6000.6.0f1** starter for a standalone multiplayer game: lobby first, then one playable level.
 
-This template does **not** use Git LFS. Leave it that way here so GitHub does not charge for LFS storage.
 
-If you clone this starter project to use for your own game and want LFS for art or audio, install [Git LFS](https://git-lfs.com), then from the project root:
+## Set up
+After cloning this starter for your own game, point `origin` at your repo:
+
+```bash
+git remote remove origin
+git remote add origin "<your-repo-url>"
+```
+
+#### Note on Git LFS:
+This template does **not** use Git LFS so GitHub does not charge for LFS storage.
+
+But if you want LFS for art or audio, install [Git LFS](https://git-lfs.com), then from the project root:
 
 *In Bash (or Git Bash):*
 
@@ -26,6 +36,8 @@ Commit the changes. New matching files go to LFS. Files already included in this
 2. Load `Assets/Scenes/Lobby.unity`.
 3. Play, host or join, then **Start**. The lobby loads `SampleLevel` automatically.
 
+
+
 ## Packages
 
 Pinned in `Packages/manifest.json`:
@@ -44,6 +56,8 @@ Use `AZNetworkManager` from AZ Multiplayer Core (not the stock NGO `NetworkManag
 | `STEAMWORKS_NET`                       | Standalone                                                                                   |
 | `DISABLESTEAMWORKS`                    | Web and Android build profiles                                                               |
 | `UNITY_NETCODE` / `NETWORK_DICTIONARY` | Build profiles                                                                               |
+
+
 
 
 ## Project layout
@@ -84,6 +98,8 @@ Full field list and nested-struct rules: [AZ Multiplayer Core README](https://gi
 
 ## Steam
 
+
+
 ### Dependencies
 
 - [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net)
@@ -117,6 +133,8 @@ Production: run [webrtc-ngo-signaling](https://github.com/aziztitu/webrtc-ngo-si
 2. Set **Signaling Server URL** and **Signaling Server Auth Token**.
 3. Optionally add TURN before shipping — STUN-only fails on some NATs.
 4. Host: leave `roomId` empty. Client: set `roomId` before connecting.
+
+
 
 ## Android
 
